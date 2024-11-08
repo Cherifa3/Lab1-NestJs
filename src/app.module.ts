@@ -13,7 +13,7 @@ import { TodoEntity } from './todo/entities/todo.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'charfouna',
+      password: '1234',
       database: 'todos',
       entities: [TodoEntity],
       synchronize: true,
