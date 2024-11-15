@@ -5,4 +5,6 @@ export declare class TodoEntity {
     description: string;
     createdAt: Date;
     status: StatusEnum;
+    updatedAt: Date;
+    deletedAt: Date;
 }

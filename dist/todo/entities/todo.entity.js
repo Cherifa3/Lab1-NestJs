@@ -35,6 +35,14 @@ __decorate([
     (0, typeorm_1.Column)({ type: 'enum', enum: status_enum_1.StatusEnum, default: status_enum_1.StatusEnum.PENDING }),
     __metadata("design:type", String)
 ], TodoEntity.prototype, "status", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], TodoEntity.prototype, "updatedAt", void 0);
+__decorate([
+    (0, typeorm_1.DeleteDateColumn)({ nullable: true }),
+    __metadata("design:type", Date)
+], TodoEntity.prototype, "deletedAt", void 0);
 exports.TodoEntity = TodoEntity = __decorate([
     (0, typeorm_1.Entity)('todo')
 ], TodoEntity);

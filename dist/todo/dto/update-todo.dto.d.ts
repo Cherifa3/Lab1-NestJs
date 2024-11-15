@@ -1,5 +1,6 @@
-import { CreateTodoDto } from './create-todo.dto';
-declare const UpdateTodoDto_base: import("@nestjs/mapped-types").MappedType<Partial<CreateTodoDto>>;
-export declare class UpdateTodoDto extends UpdateTodoDto_base {
+import { StatusEnum } from '../entities/status.enum';
+export declare class UpdateTodoDto {
+    name?: string;
+    description?: string;
+    status?: StatusEnum;
 }
-export {};

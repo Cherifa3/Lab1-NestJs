@@ -1,21 +1,22 @@
-import { IsOptional, IsString, Length, MinLength, MaxLength, IsIn } from 'class-validator';
-import { StatusEnum } from '../entities/status.enum'; 
+import { IsOptional, IsString, MinLength, MaxLength, IsIn } from 'class-validator';
+import { StatusEnum } from '../entities/status.enum';
+import { ERROR_MESSAGES } from '../../constants/error-messages'; // Import the ERROR_MESSAGES constants
 
 export class UpdateTodoDto {
   @IsOptional()
-  @IsString({ message: 'Name must be a string' })
-  @MinLength(3, { message: 'Name must be at least 3 characters long' })
-  @MaxLength(10, { message: 'Name must not exceed 10 characters' })
+  @IsString({ message: ERROR_MESSAGES.NAME_REQUIRED }) // Use the error message from ERROR_MESSAGES
+  @MinLength(3, { message: ERROR_MESSAGES.NAME_MIN_LENGTH }) // Use the error message from ERROR_MESSAGES
+  @MaxLength(10, { message: ERROR_MESSAGES.NAME_MAX_LENGTH }) // Use the error message from ERROR_MESSAGES
   name?: string;
 
   @IsOptional()
-  @IsString({ message: 'Description must be a string' })
-  @MinLength(10, { message: 'Description must be at least 10 characters long' })
+  @IsString({ message: ERROR_MESSAGES.DESCRIPTION_REQUIRED }) // Use the error message from ERROR_MESSAGES
+  @MinLength(10, { message: ERROR_MESSAGES.DESCRIPTION_MIN_LENGTH }) // Use the error message from ERROR_MESSAGES
   description?: string;
 
   @IsOptional()
   @IsIn([StatusEnum.PENDING, StatusEnum.IN_PROGRESS, StatusEnum.COMPLETED], {
     message: `Status must be one of: ${StatusEnum.PENDING}, ${StatusEnum.IN_PROGRESS}, ${StatusEnum.COMPLETED}`,
-  })
+  }) // Correctly wrap the message in a template literal
   status?: StatusEnum;
 }

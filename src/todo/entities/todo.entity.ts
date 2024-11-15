@@ -22,6 +22,6 @@ export class TodoEntity {
   @UpdateDateColumn()
   updatedAt: Date;  
 
-  @DeleteDateColumn({ nullable: true })
-  deletedAt: Date;  
+  @DeleteDateColumn()
+  deletedAt?: Date;  
 }
