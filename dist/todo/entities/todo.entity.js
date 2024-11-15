@@ -40,7 +40,7 @@ __decorate([
     __metadata("design:type", Date)
 ], TodoEntity.prototype, "updatedAt", void 0);
 __decorate([
-    (0, typeorm_1.DeleteDateColumn)({ nullable: true }),
+    (0, typeorm_1.DeleteDateColumn)(),
     __metadata("design:type", Date)
 ], TodoEntity.prototype, "deletedAt", void 0);
 exports.TodoEntity = TodoEntity = __decorate([

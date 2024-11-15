@@ -51,7 +51,8 @@ export class TodoController {
   // Endpoint pour obtenir le nombre de todos par statut
   @Get('status/count')
   async getTodosCountByStatus() {
-    return this.todoService.countTodosByStatus(); // Call the method here
+    const statusCount = await this.todoService.countTodosByStatus();
+    return statusCount;
   }
 
   // Endpoint pour récupérer tous les todos slide 13

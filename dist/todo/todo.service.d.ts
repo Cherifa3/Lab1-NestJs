@@ -15,7 +15,6 @@ export declare class TodoService {
     findAll(): Promise<TodoEntity[]>;
     findOneById(id: number): Promise<TodoEntity>;
     update(id: number, updateTodoDto: UpdateTodoDto): Promise<TodoEntity>;
-    remove(id: number): Promise<void>;
     countTodosByStatus(): Promise<{
         [key in StatusEnum]: number;
     }>;

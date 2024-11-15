@@ -143,28 +143,39 @@ export class TodoService {
 
   // slide 12 : Méthode pour compter les todos par statut
   async countTodosByStatus(): Promise<{ [key in StatusEnum]: number }> {
+    // Retrieve the raw results from the query
     const result = await this.todoRepository
       .createQueryBuilder('todo')
-      .select('todo.status')
-      .addSelect('COUNT(todo.id)', 'count')
-      .groupBy('todo.status')
+      .select('todo.status', 'status') // Alias 'status' for clarity
+      .addSelect('COUNT(todo.id)', 'count') // Count todos grouped by status
+      .where('todo.deletedAt IS NULL') // Make sure we count non-deleted todos
+      .groupBy('todo.status') // Group by the `status` column
       .getRawMany();
   
-    // Organize the results into a dictionary with status as the key
+      console.log('Query Result:', result); // This will help debug
+  
+    // Initialize the dictionary with default counts
     const statusCount: { [key in StatusEnum]: number } = {
       [StatusEnum.PENDING]: 0,
       [StatusEnum.IN_PROGRESS]: 0,
       [StatusEnum.COMPLETED]: 0,
     };
   
+    // Map the results to the status count dictionary
     result.forEach(item => {
-      statusCount[item.status as StatusEnum] = parseInt(item.count, 10);
+      const statusKey = item.status as StatusEnum; // Explicit cast to StatusEnum
+      if (statusKey in statusCount) {
+        statusCount[statusKey] = parseInt(item.count, 10); // Parse count as integer
+      } else {
+        console.warn(`Unexpected status value: ${statusKey}`); // Log any unexpected statuses
+      }
     });
   
-    return statusCount;
+    return statusCount; // Return the final dictionary
   }
-
   
+
+//slide 15
 async findAll_NDS(
   name?: string,
   description?: string,

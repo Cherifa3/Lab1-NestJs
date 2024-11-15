@@ -37,14 +37,16 @@ let TodoController = class TodoController {
     update(id, updateTodoDto) {
         return this.todoService.update(+id, updateTodoDto);
     }
-    remove(id) {
-        return this.todoService.remove(+id);
+    async deleteTodo(id) {
+        await this.todoService.softDelete(id);
     }
     async restoreTodo(id) {
         await this.todoService.restoreTodo(id);
     }
     async getTodosCountByStatus() {
-        return this.todoService.countTodosByStatus();
+        const statusCount = await this.todoService.countTodosByStatus();
+        console.log('Status Count:', statusCount);
+        return statusCount;
     }
     async getAllTodos() {
         return this.todoService.findAll();
@@ -80,9 +82,9 @@ __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], TodoController.prototype, "remove", null);
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], TodoController.prototype, "deleteTodo", null);
 __decorate([
     (0, common_1.Patch)(':id/restore'),
     __param(0, (0, common_1.Param)('id')),

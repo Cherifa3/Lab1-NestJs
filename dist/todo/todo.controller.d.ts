@@ -9,7 +9,7 @@ export declare class TodoController {
     create(createTodoDto: CreateTodoDto): Promise<TodoEntity>;
     getTodoById(id: number): Promise<TodoEntity>;
     update(id: string, updateTodoDto: UpdateTodoDto): Promise<TodoEntity>;
-    remove(id: string): Promise<void>;
+    deleteTodo(id: number): Promise<void>;
     restoreTodo(id: number): Promise<void>;
     getTodosCountByStatus(): Promise<{
         PENDING: number;

@@ -80,11 +80,13 @@ let TodoService = class TodoService {
         if (!todo) {
             throw new common_2.BadRequestException('Todo non trouvé');
         }
-        todo.deletedAt = new Date();
-        await this.todoRepository.save(todo);
+        await this.todoRepository.softDelete(id);
     }
     async restoreTodo(id) {
-        const todo = await this.todoRepository.findOne({ where: { id } });
+        const todo = await this.todoRepository.findOne({
+            where: { id },
+            withDeleted: true,
+        });
         if (!todo) {
             throw new common_2.BadRequestException('Todo non trouvé');
         }
@@ -108,23 +110,27 @@ let TodoService = class TodoService {
     update(id, updateTodoDto) {
         return this.updateTodo(id, updateTodoDto);
     }
-    remove(id) {
-        return this.softDelete(id);
-    }
     async countTodosByStatus() {
         const result = await this.todoRepository
             .createQueryBuilder('todo')
-            .select('todo.status')
+            .select('todo.status', 'status')
             .addSelect('COUNT(todo.id)', 'count')
             .groupBy('todo.status')
             .getRawMany();
+        console.log('Query Result:', result);
         const statusCount = {
             [status_enum_1.StatusEnum.PENDING]: 0,
             [status_enum_1.StatusEnum.IN_PROGRESS]: 0,
             [status_enum_1.StatusEnum.COMPLETED]: 0,
         };
         result.forEach(item => {
-            statusCount[item.status] = parseInt(item.count, 10);
+            const statusKey = item.status;
+            if (statusKey in statusCount) {
+                statusCount[statusKey] = parseInt(item.count, 10);
+            }
+            else {
+                console.warn(`Unexpected status value: ${statusKey}`);
+            }
         });
         return statusCount;
     }
